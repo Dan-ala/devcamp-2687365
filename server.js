@@ -4,8 +4,9 @@ const colors = require('colors')
 
 //Routes dependencies
 const bootcampsRoutes = require('./routes/bootcampsRoutes')
-//Routes dependencies
 const coursesRoutes = require('./routes/coursesRoutes')
+const reviewsRoutes = require('./routes/reviewsRoutes')
+const usersRoutes = require('./routes/usersRoutes')
 
 //Objecto app
 const app = express()
@@ -13,8 +14,11 @@ const app = express()
 //Pairing routes
 app.use('/bootcamps', bootcampsRoutes)
 app.use('/courses', coursesRoutes)
+app.use('/reviews', reviewsRoutes)
+app.use('/users', usersRoutes)
 
 //Configurar variables de entorno
+
 dotenv.config(
     {
         path: './config/.env'
