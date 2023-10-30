@@ -46,7 +46,7 @@ router.put('/:id', (req, res)=>{
 })
 
 router.delete('/:id', async (req, res)=>{
-    const deleteBootcamp = await bootcampModel.deleteOne(bootcampModel.findOne(req.params.id))
+    const deleteBootcamp = await bootcampModel.deleteOne(bootcampModel.findById(req.params.id))
     res.json(
         {
             success: true,
