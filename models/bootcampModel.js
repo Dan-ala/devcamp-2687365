@@ -5,13 +5,13 @@ const bootcampSchema = new mongoose.Schema({
     name: {
         type: String,
         unique : true,
-        required : [true , "The Bootcamp is duplicated"],
+        required : [true , "Name required"],
         maxlength: [20 , "The name must have 20 characters!"]
     },
     phone: {
         type: Number,
-        required : [true , "The phone is duplicated"],
-        maxlength: [10 , "The phone number, must have 10 characters"]
+        required : [true , "Phone number required"],
+        max: [9999999999 , "The phone number, must have 10 characters"]
     },
     address: {
         type: String,
@@ -22,14 +22,15 @@ const bootcampSchema = new mongoose.Schema({
         enum: [ "AI", 
         "Backend Development", 
         "Frontend", 
-        "Devops" 
-    ]
+        "Devops",
+        "IoT"
+        ]
     },
     averageRating: Number,
 
     createdAt: {
         type: Date,
-        required: [true , "The creation date must be added"]
+        required: 'Must have start date - default value is the created date'
     }
 })
 
