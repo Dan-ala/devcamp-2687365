@@ -27,7 +27,6 @@ router.get('/:id', async (req, res)=>{
 router.post('/', async (req, res)=>{
     //Add a new bootcamp
     const newBootcamp = await bootcampModel.create(req.body)
-
     res.json(
         {
             success: true,
@@ -36,11 +35,16 @@ router.post('/', async (req, res)=>{
     )
 })
 
-router.put('/:id', (req, res)=>{
+router.put('/:id', async (req, res)=>{
+    const editBootcamp = await bootcampModel.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+        )
     res.json(
         {
             success: true,
-            msg: `Aquí se editará el bootcamp cuyo id es: ${req.params.id}`
+            data: editBootcamp
         }
     )
 })
