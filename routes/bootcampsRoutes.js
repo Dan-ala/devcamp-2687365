@@ -4,13 +4,33 @@ const router = express.Router()
 
 //URI
 router.get('/', async (req, res)=>{
-    const bootcamps = await bootcampModel.find()
-    res.json(
-        {
-            success:true,
-            data: bootcamps
+
+    try{
+        const bootcamps = await bootcampModel.find()
+        if(bootcamps.length === 0){
+            res.
+            status(400).json({
+                success: false,
+                msg: 'There are not bootcamps'
+            })
+        }else{
+            res.
+            status(200).json(
+                {
+                    success:true,
+                    msg: 'There you have all your bootcamps',
+                    data: bootcamps
+                }
+            )
         }
-    )
+    }catch(error){
+        res.
+        status(500).json({
+            success: false,
+            msg: `Server is not working properly ${error.message}`
+        })
+    }
+
 })
 
 router.get('/:id', async (req, res)=>{
