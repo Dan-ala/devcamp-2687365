@@ -1,5 +1,6 @@
 const express = require('express')
 const courseModel = require('../models/courseModel')
+const bootcampModel = require("../models/bootcampModel");
 const mongoose = require('mongoose')
 const router2 = express.Router()
 
@@ -28,7 +29,7 @@ router2.get('/', async (req, res)=>{
             msg: `Server is not working properly ${error.message}`
         })
     }
-    response.json(
+    res.json(
         {
             success:true,
             msg: "Aquí se traerán todos los Courses"
@@ -45,7 +46,27 @@ router2.get('/:id', (req, res)=>{
     )
 })
 
-router2.post('/', (req, res)=>{
+router2.post('/', async (req, res)=>{
+    const id = req.params.id
+    try{
+        const newCourse = await courseModel.create(req.body)
+        const gettingBootcamp = await bootcampModel.findById(id)
+        const url = `${newCourse}/${gettingBootcamp}`
+        https.get(url,res=>{
+            body=JSON.stringify(res)
+            console.log(body)
+        })
+        res.status(201).json({
+            success: true,
+            msg: 'A new course has been created',
+            data: newCourse
+        })
+    }catch(error){
+        res.status(500).json({
+            success: false,
+            msg: `${error.message}`
+        })
+    }
     res.json(
         {
             success: true,
