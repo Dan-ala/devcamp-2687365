@@ -1,8 +1,33 @@
 const express = require('express')
+const courseModel = require('../models/courseModel')
+const mongoose = require('mongoose')
 const router2 = express.Router()
 
 //COURSES
-router2.get('/', (request, response)=>{
+router2.get('/', async (req, res)=>{
+    try{
+        const courses = await courseModel.find()
+        if(courses.length === 0){
+            res.
+            status(400).json({
+                success: false,
+                msg: 'There are not courses'
+            })
+        }else{
+            res.
+            status(200).json({
+                success: true,
+                msg: "There you have all your courses",
+                data: courses, 
+            })
+        }
+    }catch (error){
+        res.
+        status(500).json({
+            success: false,
+            msg: `Server is not working properly ${error.message}`
+        })
+    }
     response.json(
         {
             success:true,
