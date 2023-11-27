@@ -1,7 +1,7 @@
 const express = require("express");
 const bootcampModel = require("../models/bootcampModel");
 const mongoose = require("mongoose");
-const router = express.Router();
+const router = express.Router()
 
 //URI
 router.get("/", async (req, res) => {
