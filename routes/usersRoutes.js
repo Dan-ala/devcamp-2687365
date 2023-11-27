@@ -4,6 +4,58 @@ const userModel = require('../models/userModel')
 const mongoose = require('mongoose')
 
 //USERS
+router4.post('/register', async (req,res)=>{
+  const body = req.body
+  try{
+    const user = await userModel.create(body)
+    res.status(201).json({
+      success: true,
+      data: user
+    })
+  }catch(error){
+    res.status(500).json({
+      success: false,
+      error: error.message
+    })
+  }
+})
+
+router4.post('/login', async (req,res)=>{
+const {email, password} = req.body
+  try{
+    //Look the user with his email
+    const user = await userModel.findOne({email})
+    if(!user){
+      res.status(404).json({
+        success: false,
+        message: 'User not found'
+      })
+    }else{
+      //Compare the password
+      const isMatch = await user.comparePassword(password)
+      if(isMatch){
+        res.status(200).json({
+          success: true,
+          message: 'User logged'
+        })
+      }else{
+        res.status(401).json({
+          success: false,
+          message: 'Data not valid'
+        })
+      }
+    }
+
+  }catch(error){
+    res.status(500).json({
+      success: false,
+      error: error.message
+    })
+  }
+})
+
+
+//Testing with Thunder Client
 router4.get("/", async (req, res) => {
     try {
       const users = await userModel.find();
@@ -58,23 +110,23 @@ router4.get("/", async (req, res) => {
     }
   });
   
-  router4.post("/", async (req, res) => {
-    //Add a new user
-    try {
-      const newUser = await userModel.create(req.body);
-      res.status(201).json({
-        success: true,
-        msg: "A new user has been created.",
-        data: newUser,
-      });
-    } catch (error) {
-      res.
-      status(500).json({
-        success: false,
-        msg: `${error.message}`,
-      });
-    }
-  });
+  // router4.post("/", async (req, res) => {
+  //   //Add a new user
+  //   try {
+  //     const newUser = await userModel.create(req.body);
+  //     res.status(201).json({
+  //       success: true,
+  //       msg: "A new user has been created.",
+  //       data: newUser,
+  //     });
+  //   } catch (error) {
+  //     res.
+  //     status(500).json({
+  //       success: false,
+  //       msg: `${error.message}`,
+  //     });
+  //   }
+  // });
   
   router4.put("/:id", async (req, res) => {
   const id = req.params.id
